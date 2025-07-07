@@ -1,30 +1,30 @@
 package controle.acesso;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import modelo.produto.Produto;
+import modelo.produto.ProdutoDAO;
 
 /**
  *
  * @author Leonardo Oliveira Moreira
  *
- * Classe de controle para realizar o logout de um usuário
+ * Classe de controle para realizar o carregamento da página inicial
  */
-public class LogoutServlet extends HttpServlet {
+public class InicioServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession sessao = request.getSession();
-        sessao.invalidate();
-        if (request.getAttribute("mensagem") == null) {
-            request.setAttribute("mensagem", "Sua sessão foi encerrada");
-        }
-        RequestDispatcher rd = request.getRequestDispatcher("/Inicio");
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        List<Produto> produtos = produtoDAO.listarEmEstoque();
+        request.setAttribute("produtos", produtos);
+        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
         rd.forward(request, response);
     }
 

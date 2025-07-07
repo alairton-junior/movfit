@@ -3,6 +3,7 @@ package controle.acesso;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +36,24 @@ public class LoginServlet extends HttpServlet {
         } else {
             HttpSession sessao = request.getSession(true);
             sessao.setAttribute("usuario", usuario);
-            RequestDispatcher rd = request.getRequestDispatcher("principal.jsp");
+            // Grava o último login como um cookie - Início
+            Cookie ultimoLogin = null;
+            Cookie[] cookiesExistentes = request.getCookies();
+            for (Cookie c : cookiesExistentes) {
+                if (c.getName().endsWith("smde.login")) {
+                    ultimoLogin = c;
+                    break;
+                }
+            }
+            if (ultimoLogin == null) {
+                ultimoLogin = new Cookie("smde.login", login);
+            } else {
+                ultimoLogin.setValue(login);
+            }
+            ultimoLogin.setMaxAge(Integer.MAX_VALUE);
+            response.addCookie(ultimoLogin);
+            // Grava o último login como um cookie - Fim
+            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/principal.jsp");
             rd.forward(request, response);
         }
     }

@@ -1,4 +1,4 @@
-package controle.usuario;
+package controle.categoria;
 
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -6,15 +6,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelo.usuario.UsuarioDAO;
+import modelo.categoria.CategoriaDAO;
 
 /**
  *
  * @author Leonardo Oliveira Moreira
  *
- * Classe de controle para remover um usuário existente
+ * Classe de controle para remover uma categoria existente
  */
-public class RemoverUsuarioServlet extends HttpServlet {
+public class RemoverCategoriaServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
@@ -22,15 +22,15 @@ public class RemoverUsuarioServlet extends HttpServlet {
         // entrada
         int id = Integer.parseInt(request.getParameter("id"));
         // processamento
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
-        boolean sucesso = usuarioDAO.remover(id);
+        CategoriaDAO categoriaDAO = new CategoriaDAO();
+        boolean sucesso = categoriaDAO.remover(id);
         // saída
         if (sucesso) {
-            request.setAttribute("mensagem", "Usuário removido com sucesso");
+            request.setAttribute("mensagem", "Categoria removida com sucesso");
         } else {
-            request.setAttribute("mensagem", "Não foi possível remover o usuário");
+            request.setAttribute("mensagem", "Não foi possível remover a categoria");
         }
-        RequestDispatcher rd = request.getRequestDispatcher("/Logout");
+        RequestDispatcher rd = request.getRequestDispatcher("/admin/ListarCategorias");
         rd.forward(request, response);
     }
 

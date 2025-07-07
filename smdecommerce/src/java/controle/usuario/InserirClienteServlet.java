@@ -34,7 +34,7 @@ public class InserirClienteServlet extends HttpServlet {
         } else {
             request.setAttribute("mensagem", "Não foi possível inserir o cliente");
         }
-        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/Inicio");
         rd.forward(request, response);
     }
 

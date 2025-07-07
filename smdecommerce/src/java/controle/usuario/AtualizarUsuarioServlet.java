@@ -31,11 +31,11 @@ public class AtualizarUsuarioServlet extends HttpServlet {
         boolean sucesso = usuarioDAO.atualizar(nome, endereco, email, login, senha, id);
         // saída
         if (sucesso) {
-            request.setAttribute("mensagem", "Usuário atualizado com sucesso");
+            request.setAttribute("mensagem", "Usuário atualizado com sucesso. Sua sessão foi encerrada.");
         } else {
-            request.setAttribute("mensagem", "Não foi possível atualizar o usuário");
+            request.setAttribute("mensagem", "Não foi possível atualizar o usuário. Sua sessão foi encerrada.");
         }
-        RequestDispatcher rd = request.getRequestDispatcher("Logout");
+        RequestDispatcher rd = request.getRequestDispatcher("/Logout");
         rd.forward(request, response);
     }
 
